@@ -56,10 +56,10 @@ function App () {
   //
   return (
     <div className={`container ${darkMode ? 'dark-mode' : ''}`}>
-      <Nav />
+      <Nav darkMode={darkMode} setDarkMode={setDarkMode} />
       <h1 className='header'>Recent Orders 📦</h1>
       <div className='options-container'>
-        <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+        {/* <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} /> */}
         <Filter filterStatus={filterStatus} setFilterStatus={setFilterStatus} />
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
