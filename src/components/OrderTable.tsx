@@ -1,104 +1,79 @@
-import React, { useState } from 'react'
+import React, { useCallback } from 'react'
 import { Order } from '../types'
-import { FaWalking } from 'react-icons/fa'
-import { IoIosAddCircle } from 'react-icons/io'
-import { MdDeliveryDining } from 'react-icons/md'
-import { FaCircleCheck } from 'react-icons/fa6'
 
-import { FaSort } from 'react-icons/fa6'
 import Filter from './Filter'
+import SearchBar from './SearchBar'
+import { useTableData } from '../hooks/useTableData'
+import StaticOrdersTable from './StaticOrdersTable'
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa'
 
 interface OrderTableProps {
   orders: Order[]
 }
 
-const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
-  const [sortedorders, setSortedOrders] = useState<Order[]>(orders)
-  const [sortStatus, setSortStatus] = useState<boolean>(false)
-  
-  const handleDateSort = () => {
-    if (sortStatus) {
-      setSortedOrders(
-        orders.sort((a, b) => {
-          if (a.createdAt < b.createdAt) {
-            return -1
-          }
-          if (a.createdAt > b.createdAt) {
-            return 1
-          }
-          return 0
-        })
-      )
-    } else {
-      setSortedOrders(
-        orders.sort((a, b) => {
-          if (a.createdAt < b.createdAt) {
-            return 1
-          }
-          if (a.createdAt > b.createdAt) {
-            return -1
-          }
-          return 0
-        })
-      )
-    }
-    setSortStatus(!sortStatus)
-  }
+interface PaginatorProps {
+  currentPage: number
+  lastPage: number
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+}
+
+const Paginator: React.FC<PaginatorProps> = ({
+  currentPage,
+  lastPage,
+  setCurrentPage
+}) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Customer Name</th>
-          <th>
-            <p>Status</p>
-          </th>
-          <th>Items</th>
-          <th
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 15,
-              cursor: 'pointer'
-            }}
-          >
-            <p>Created At</p>
-            <FaSort color='#fff' size={15} onClick={handleDateSort} />
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {sortedorders.length > 0 ? (
-          orders.map(order => (
-            <tr key={order.id}>
-              <td>{order.id}</td>
-              <td>{order.customerName}</td>
-              <td className='status-container'>
-                <p>{order.status}</p>
-                <span>
-                  {order.status === 'New' ? (
-                    <IoIosAddCircle  size={20} />
-                  ) : order.status === 'Picking' ? (
-                    <FaWalking  size={20} />
-                  ) : order.status === 'Delivering' ? (
-                    <MdDeliveryDining  size={20} />
-                  ) : (
-                    <FaCircleCheck  size={20} />
-                  )}
-                </span>
-              </td>
-              <td>{order.items.join(', ')}</td>
-              <td>{order.createdAt}</td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan={5}>No orders found</td>
-          </tr>
-        )}
-      </tbody>
-    </table>
+    <div className='pagination-container'>
+      <button
+        disabled={currentPage <= 0}
+        onClick={() => setCurrentPage(page => page - 1)}
+        className='paginator-button'
+      >
+        <FaArrowAltCircleLeft size={25} color='#124830' />
+      </button>
+      <span>{currentPage + 1}</span>
+      <button
+        disabled={currentPage >= lastPage}
+        onClick={() => setCurrentPage(page => page + 1)}
+        className='paginator-button'
+      >
+        <FaArrowAltCircleRight size={25} color='#124830' />
+      </button>
+    </div>
+  )
+}
+
+const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
+  const {
+    filterStatus,
+    setFilterStatus,
+    searchQuery,
+    setSearchQuery,
+    setSortStatus,
+    currentPage,
+    lastPage,
+    setCurrentPage,
+    ordersLlist
+  } = useTableData(orders)
+
+  const sortOrders = useCallback(() => {
+    setSortStatus(oldStatus => (oldStatus === 'ASC' ? 'DESC' : 'ASC'))
+  }, [])
+
+  return (
+    <>
+      <div className='options-container'>
+        <Filter filterStatus={filterStatus} setFilterStatus={setFilterStatus} />
+        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      </div>
+      <StaticOrdersTable orders={ordersLlist} sortOrders={sortOrders} />
+
+      <Paginator
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        lastPage={lastPage}
+      />
+    </>
   )
 }
 

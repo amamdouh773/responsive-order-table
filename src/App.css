@@ -11,8 +11,9 @@ body {
   justify-content: center;
   align-items: flex-start;
   width: 100%;
+  height: 100%;
 }
-.nav-container{
+.nav-container {
   background-color: var(--primary-color);
   display: flex;
   justify-content: space-between;
@@ -21,73 +22,74 @@ body {
   width: 97%;
 }
 
-.header{
+.header {
   color: var(--dark-color);
   margin-left: 20px;
 }
 
-.dark-mode .header{
+.dark-mode .header {
   color: var(--light-color);
 }
 
-.container{
+.container {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   background-color: var(--light-color);
   gap: 15px;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  padding-bottom: 100px;
 }
 
-.container.dark-mode{
+.container.dark-mode {
   background-color: var(--dark-color);
 }
 
-.container .options-container{
+.container .options-container {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
 }
 
-.container .options-container button{
+.container .options-container button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   background-color: var(--light-color);
   color: var(--primary-color);
   cursor: pointer;
-  outline: none;  
+  outline: none;
   border: 1px solid var(--primary-color);
 }
 
-.container.dark-mode .options-container button{
+.container.dark-mode .options-container button {
   background-color: var(--primary-color);
   color: var(--light-color);
   border: 1px solid var(--primary-color);
 }
 
-.container .options-container button:hover{
+.container .options-container button:hover {
   background-color: var(--primary-color);
   color: var(--light-color);
   border: 1px solid var(--primary-color);
 }
 
-.container.dark-mode .options-container button:hover{
+.container.dark-mode .options-container button:hover {
   background-color: var(--dark-color);
   color: var(--primary-color);
   border: 1px solidvar(--primary-color);
 }
 
-.container.dark-mode .options-container select{
+.container.dark-mode .options-container select {
   background-color: var(--primary-color);
   color: var(--light-color);
-  
 }
 
-.container .options-container select{
+.container .options-container select {
   background-color: var(--light-color);
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
@@ -95,7 +97,7 @@ body {
   padding: 10px 20px;
 }
 
-.container .options-container input{
+.container .options-container input {
   padding: 10px 20px;
   border: 1px solid var(--primary-color);
   background-color: var(--light-color);
@@ -105,7 +107,7 @@ body {
   padding: auto;
   color: var(--dark-color);
 }
-.container.dark-mode .options-container input{
+.container.dark-mode .options-container input {
   padding: 10px 20px;
   border: 1px solid var(--dark-color);
   background-color: var(--primary-color);
@@ -114,29 +116,30 @@ body {
   color: var(--light-color);
 }
 
-
 table {
   width: 70%;
   border-collapse: collapse;
   text-align: center;
+  padding: 10px;
+  overflow: scroll;
 }
 
-.container.dark-mode table th{
+.container.dark-mode table th {
   background-color: var(--dark-color);
   color: var(--light-color);
 }
 
-table th, table td {
+table th,
+table td {
   border: 1px solid #ddd;
   padding: 8px;
 }
-
 
 table th {
   background-color: var(--primary-color);
   color: var(--light-color);
 }
-.container.dark-mode table th{
+.container.dark-mode table th {
   background-color: var(--primary-color);
   color: var(--light-color);
 }
@@ -145,14 +148,38 @@ table tr:nth-child(even) {
   background-color: var(--secondary-color);
 }
 
-.container.dark-mode table tr:nth-child(even){
-  background-color: var(--primary-color);
-
+.sort-container {
+  display: flex;
+  align-items: center;
+  justify-content: 'center';
+  gap: 15;
+  cursor: 'pointer';
 }
 
-.status-container{
+.container.dark-mode table tr:nth-child(even) {
+  background-color: var(--primary-color);
+}
+
+.status-container {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.paginator-button{
+  background: none;
+  border: none;
+}
+
+.paginator-button:focus{
+  cursor: pointer;
+  outline: none;
 }
